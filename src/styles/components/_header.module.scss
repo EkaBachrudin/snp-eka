@@ -12,7 +12,7 @@
     .custom_input {
         @apply mt-3 font-worksans dark:bg-[#282c34] dark:border-[#282c34] border dark:text-white;
         input{
-            @apply font-worksans;
+            @apply font-worksans
         }
         .custom_icon{
             @apply dark:text-[#52525B];

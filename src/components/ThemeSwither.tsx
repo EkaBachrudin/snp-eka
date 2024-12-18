@@ -16,7 +16,6 @@ const ThemeSwitcher: React.FC<ChildProps> = ({ emitToParent }) => {
 
   useEffect(() => {
     emitToParent(theme);
-    console.log(theme);
   }, [theme]);
 
   return (

@@ -1,3 +1,18 @@
 .title{
-    @apply font-worksans font-medium text-f-16 dark:text-white;
+    @apply font-worksans font-medium text-f-20 dark:text-white hover:underline;
+}
+
+.card_ex{
+    @apply border dark:border-[#2b2c37] dark:bg-[#181A2A] p-0 mb-5;
+   
+    img{
+        @apply object-cover rounded-md;
+        width: 100% !important;
+        height: 240px !important;
+    }
+
+    .ant-card-body{
+        @apply p-0;
+        padding: 0 !important;
+    }
 }

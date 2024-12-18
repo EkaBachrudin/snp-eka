@@ -3,19 +3,25 @@ import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '../styles/globals.scss'
 import { ConfigProvider, Input } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemeProvider } from '@/context/ThemeContext';
 import ThemeSwitcher from '@/components/ThemeSwither';
 import Header from '@/components/Header';
+import CredentialDialog from '@/components/CredentialDialog';
+import { setToken } from '@/lib/api/gorest';
+import { SearchProvider } from '@/context/SearchContext';
 
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   const [currentTheme, setCurrentTheme] = useState('light');
+  const [showCredentialDialog, setShowCredentialDialog] = useState(false);
 
-  const handleDataFromChild = (theme: string) => {
-    setCurrentTheme(theme);
-  };
+  useEffect(() => {
+    if (!isTokenAvailable()) {
+      setShowCredentialDialog(true);
+    }
+  }, []);
 
   const lightTheme = {
     colorPrimary: '',
@@ -41,11 +47,19 @@ export default function App({ Component, pageProps }: AppProps) {
         
         <ThemeProvider>
 
-          <div className='bg-white dark:bg-[#181A2A]'>
+          <div className='bg-white dark:bg-[#181A2A] min-h-screen'>
 
-            <Header currentTheme={currentTheme} setCurrentTheme={setCurrentTheme}/>
+            <SearchProvider>
+
+              <Header currentTheme={currentTheme} setCurrentTheme={setCurrentTheme}/>
+              
+              <Component {...pageProps} />
+
+            </SearchProvider>
+
             
-            <Component {...pageProps} />
+
+            {showCredentialDialog && <CredentialDialog />}
 
           </div>
           
@@ -56,3 +70,14 @@ export default function App({ Component, pageProps }: AppProps) {
     </QueryClientProvider>
   )
 }
+
+const isTokenAvailable = () => {
+  const token = localStorage.getItem('token');
+
+  if(token) {
+    setToken(token);
+    return true;
+  }
+  
+  return false;
+};

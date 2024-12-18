@@ -3,7 +3,9 @@ import Image from 'next/image';
 import styles from '../styles/components/_header.module.scss';
 import ThemeSwitcher from './ThemeSwither';
 import { Input } from 'antd';
-import { InfoCircleOutlined, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
+import { useData } from '@/context/SearchContext';
+import type { ChangeEvent } from 'react';
 
 interface ChildComponentProps {
     currentTheme: string;
@@ -13,8 +15,14 @@ interface ChildComponentProps {
 
 const Header: React.FC<ChildComponentProps> = ({ currentTheme, setCurrentTheme }) => {
 
+    const { setData } = useData();
+    
     const handleDataFromChild = (theme: string) => {
         setCurrentTheme(theme);
+    };
+
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setData(event.target.value);
     };
 
     return (
@@ -38,6 +46,7 @@ const Header: React.FC<ChildComponentProps> = ({ currentTheme, setCurrentTheme }
                     <Input
                         className={styles.custom_input}
                         placeholder="Search"
+                        onChange={handleInputChange}
                         suffix={
                             <SearchOutlined className={styles.custom_icon} />
                         }
