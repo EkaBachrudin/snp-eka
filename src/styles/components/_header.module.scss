@@ -1,0 +1,28 @@
+.header_wrapper{
+    @apply mx-6 pt-4 font-worksans;
+    .header_content{
+        @apply  flex justify-between items-center;
+
+        img{
+            width: 158px !important;
+            height: 36px !important;
+        }
+    }
+
+    .custom_input {
+        @apply mt-3 font-worksans dark:bg-[#282c34] dark:border-[#282c34] border dark:text-white;
+        input{
+            @apply font-worksans;
+        }
+        .custom_icon{
+            @apply dark:text-[#52525B];
+            svg{
+                @apply size-5
+            }
+        }
+    }
+
+    .custom_input ::placeholder {
+        @apply text-[#7f7f7f];
+    }
+}

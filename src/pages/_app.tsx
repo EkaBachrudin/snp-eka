@@ -2,10 +2,11 @@
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '../styles/globals.scss'
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, Input } from 'antd';
 import { useState } from 'react';
 import { ThemeProvider } from '@/context/ThemeContext';
 import ThemeSwitcher from '@/components/ThemeSwither';
+import Header from '@/components/Header';
 
 const queryClient = new QueryClient();
 
@@ -17,27 +18,32 @@ export default function App({ Component, pageProps }: AppProps) {
   };
 
   const lightTheme = {
-    colorPrimary: 'green',
-    colorTextBase: 'green',
+    colorPrimary: '',
+    colorTextBase: 'black',
     colorTextLightSolid: 'white'
   }
 
   const darkTheme = {
-    colorPrimary: 'black',
-    colorTextBase: 'black',
+    colorPrimary: '#4B6BFB',
+    colorTextBase: '',
     colorTextLightSolid: 'white'
   }
 
   return (
     <QueryClientProvider client={queryClient}>
 
-      <ConfigProvider theme={{token: currentTheme === 'light' ? lightTheme : darkTheme}}>
+      <ConfigProvider theme={{
+          token: currentTheme === 'light' ? lightTheme : darkTheme,
+          components: {
+            Input: {colorBgBase: '#242535'}
+          }
+        }}>
         
         <ThemeProvider>
 
-          <div className='bg-white dark:bg-black'>
+          <div className='bg-white dark:bg-[#181A2A]'>
 
-            <ThemeSwitcher emitToParent={handleDataFromChild} />
+            <Header currentTheme={currentTheme} setCurrentTheme={setCurrentTheme}/>
             
             <Component {...pageProps} />
 
