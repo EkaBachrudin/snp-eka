@@ -1,17 +1,21 @@
 
 import Image from 'next/image';
-import { Card } from 'antd';
+import { Card, Pagination, type PaginationProps } from 'antd';
 import styles from '../styles/pages/_index.module.scss';
 import { fetchPosts } from '@/lib/api/gorest';
 import { useEffect, useState } from 'react';
-import type { PostType } from '@/types';
+import type { PaginationData, PostType } from '@/types';
 import { useData } from '@/context/SearchContext';
 import useDebounce from '@/hooks/useDebounce';
+import Link from 'next/link';
 
 export default function Home() {
+
   const [posts, setPosts] = useState<PostType[]>([]);
+  const [pagination, setPagination] = useState<PaginationData>();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const { data } = useData();
   const debouncedInput = useDebounce(data, 500);
@@ -21,30 +25,33 @@ export default function Home() {
     const abortController = new AbortController();
 
     fetchPosts({
-      queryKey: [5, debouncedInput],
-      pageParam: 2,
+      queryKey: [pageSize, debouncedInput],
+      pageParam: currentPage,
       signal: abortController.signal,
       meta: {}
     })
       .then(response => {
-        const limit = response.headers['x-pagination-limit'];
-        const page = response.headers['x-pagination-page'];
-        const totalPages = response.headers['x-pagination-pages'];
-        const totalItems = response.headers['x-pagination-total'];
-        
         setPosts(response.data);
+        setPagination(response.pagination)
         setLoading(false);
       })
       .catch(err => {
         console.error("Failed to fetch posts:", err);
-        setError('Failed to load posts.');
         setLoading(false);
       });
 
     return () => {
       abortController.abort();
     };
-  }, [debouncedInput]);
+  }, [debouncedInput, currentPage, pageSize]);
+
+  const onPageChange: PaginationProps['onChange'] = (currentPage) => {
+    setCurrentPage(currentPage);
+  };
+
+  const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
+    setPageSize(pageSize);
+  };
 
   if (loading) return (
     <div className='p-7'>
@@ -53,7 +60,6 @@ export default function Home() {
       <Card className={styles.card_ex} hoverable loading={true}></Card>
     </div>
   );
-  if (error) return <p>Error: {error}</p>;
 
   return (
     <main className='p-7'>
@@ -75,11 +81,22 @@ export default function Home() {
           />
         }>
 
-          <div className={styles.title}>{post.title}</div>
+          <Link href={`/post/${post.id}`}>
+            <div  className={styles.title}>{post.title}</div>
+          </Link> 
 
         </Card>
 
       ))}
+
+        <Pagination
+          onChange={onPageChange}
+          onShowSizeChange={onShowSizeChange}
+          defaultPageSize={pageSize}
+          defaultCurrent={currentPage}
+          total={Number(pagination?.totalItems)}
+        />
+      
 
     </main>
   )

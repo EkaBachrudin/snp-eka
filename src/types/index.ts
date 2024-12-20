@@ -4,3 +4,10 @@ export interface PostType {
     title: string;
     body: string;
 }
+
+export interface PaginationData {
+    limit: string;       
+    page: string;        
+    totalItems: string;  
+    totalPages: string; 
+  }

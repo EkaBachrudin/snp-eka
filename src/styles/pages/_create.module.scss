@@ -1,0 +1,29 @@
+
+
+.form_wrapper{
+    @apply mx-4;
+
+    .title{
+        @apply text-f-20 font-worksans dark:text-white my-5;
+    }
+    .custom_input {
+        @apply mb-4 font-worksans dark:bg-[#282c34] dark:border-[#282c34] border dark:text-white;
+        input{
+            @apply font-worksans
+        }
+        .custom_icon{
+            @apply dark:text-[#52525B];
+            svg{
+                @apply size-5
+            }
+        }
+    }
+    .error_text{
+        @apply mb-4;
+        margin-top: -12px;
+    }
+    
+    .custom_input::placeholder {
+        @apply text-[#7f7f7f];
+    }
+}

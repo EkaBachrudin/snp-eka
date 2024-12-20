@@ -2,10 +2,13 @@
 import Image from 'next/image';
 import styles from '../styles/components/_header.module.scss';
 import ThemeSwitcher from './ThemeSwither';
-import { Input } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { Button, Input } from 'antd';
+import { PlusCircleTwoTone, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { useData } from '@/context/SearchContext';
 import type { ChangeEvent } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+
 
 interface ChildComponentProps {
     currentTheme: string;
@@ -14,6 +17,7 @@ interface ChildComponentProps {
 
 
 const Header: React.FC<ChildComponentProps> = ({ currentTheme, setCurrentTheme }) => {
+    const router = useRouter();
 
     const { setData } = useData();
     
@@ -40,19 +44,26 @@ const Header: React.FC<ChildComponentProps> = ({ currentTheme, setCurrentTheme }
 
                     <ThemeSwitcher emitToParent={handleDataFromChild} />
                 </div>
+
+                {router.pathname === '/'  && (
+                     <div className='mt-6 search-header flex items-center gap-3'>
+                        <Link href={`/create`}>
+                            <Button type="primary" icon={<PlusOutlined />}>
+                                Create
+                            </Button>
+                        </Link> 
+                        
+                        <Input
+                            className={styles.custom_input}
+                            placeholder="Search"
+                            onChange={handleInputChange}
+                            suffix={
+                                <SearchOutlined className={styles.custom_icon} />
+                            }
+                        />
+                    </div>
+                )}
                 
-
-               <div className='mt-4'>
-                    <Input
-                        className={styles.custom_input}
-                        placeholder="Search"
-                        onChange={handleInputChange}
-                        suffix={
-                            <SearchOutlined className={styles.custom_icon} />
-                        }
-                    />
-               </div>
-
             </div>
         </>
     )

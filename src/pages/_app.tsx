@@ -35,13 +35,18 @@ export default function App({ Component, pageProps }: AppProps) {
     colorTextLightSolid: 'white'
   }
 
+  const paginateDark = {
+    colorBgContainer: '#3750c4',
+    colorText: 'white',
+    colorTextDisabled: 'white',
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
 
       <ConfigProvider theme={{
-          token: currentTheme === 'light' ? lightTheme : darkTheme,
           components: {
-            Input: {colorBgBase: '#242535'}
+            Pagination: currentTheme === 'dark' ? paginateDark : {}
           }
         }}>
         
@@ -56,8 +61,6 @@ export default function App({ Component, pageProps }: AppProps) {
               <Component {...pageProps} />
 
             </SearchProvider>
-
-            
 
             {showCredentialDialog && <CredentialDialog />}
 

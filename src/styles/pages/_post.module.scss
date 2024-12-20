@@ -1,0 +1,26 @@
+
+.post_wrapper{
+    @apply px-6 pb-28;
+
+    .title{
+        @apply text-f-24 font-worksans font-bold dark:text-white mt-10;
+    }
+
+    .author{
+        @apply text-f-14 font-worksans dark:text-[#97989F] text-[#696A75] mt-2;
+    }
+
+
+    img{
+        @apply rounded-xl mt-8;
+    }
+
+    .body{
+        @apply text-f-20 font-serif dark:text-[#BABABF] text-[#3B3C4A] leading-8 mt-8;
+    }
+
+    .btn_dan{
+        @apply dark:bg-[#181a2a] mt-5;
+    }
+}
+

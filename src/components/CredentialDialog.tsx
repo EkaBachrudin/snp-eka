@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Input, Modal } from 'antd';
-import { fetchPosts, setToken } from '@/lib/api/gorest';
+import { createUser } from '@/lib/api/gorest';
+import type { UserDto } from '@/types/user.interface';
+import removeSpacesAndSpecialChars from '@/hooks/specialChar.hook';
 
 const CredentialDialog: React.FC = () => {
     const [open, setOpen] = useState(false);
@@ -33,27 +35,27 @@ const CredentialDialog: React.FC = () => {
     };
 
     const handleSubmit = () => {
-        setToken(credential);
-        checkToken();
+        handleCreateUser();
     };
 
-    const checkToken = async () => {
+    async function handleCreateUser() {
+        const payload: UserDto = {
+          name: username,
+          email: `${removeSpacesAndSpecialChars(username)}user@mail.com`,
+          gender: "male",
+          status: "active"
+        };
+      
         try {
-            await fetchPosts({
-                queryKey: [1],
-                pageParam: 2,
-                signal: new AbortController().signal,
-                meta: {}
-            });
-
-            setOpen(false);
-            setConfirmLoading(false);
-        } catch (error: any) {
-            console.log(error)
-            setIsCredential(error.response.data.message);
-            setConfirmLoading(false);
+          const response = await createUser(payload, credential);
+          localStorage.setItem('userId', response.data.id);
+          setConfirmLoading(false);
+          setOpen(false);
+        } catch (error) {
+          setConfirmLoading(false);
+          localStorage.removeItem('token'); 
         }
-    };
+      }
 
     return (
         <>
