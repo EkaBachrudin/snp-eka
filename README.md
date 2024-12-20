@@ -1,4 +1,15 @@
-Demo : https://next-1uno3vaxw-eka-bns-projects.vercel.app/
+## Credential
+Demo : 
+```bash
+https://next-1uno3vaxw-eka-bns-projects.vercel.app/
+```
+Upon your first visit, a popup will appear requesting credentials
+Enter the following access token in the credential input field
+
+Access Token : 
+```bash
+3147687592dc6230d32b941337ec752c9e2691dcaf05c64dc71d299bfedfaef6
+```
 ## Getting Started
 
 First, run the development server:
