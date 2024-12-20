@@ -93,7 +93,7 @@ export default function Home() {
 
       <div className={styles.card_items}>
         {posts.map((post, index) => (
-          <Card className={styles.card_ex} hoverable loading={false} cover={
+          <Card key={index} className={styles.card_ex} hoverable loading={false} cover={
             <Image
               src={`https://picsum.photos/360/24${index}?random=1`}
               alt="ima"

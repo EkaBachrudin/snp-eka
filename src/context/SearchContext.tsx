@@ -6,7 +6,6 @@ interface SearchContexType {
     setData: (value: string) => void;
 }
 
-// Creating the context with an undefined default value which will be overwritten by the Provider
 const SearchContex = createContext<SearchContexType | undefined>(undefined);
 
 interface Props {
@@ -23,7 +22,6 @@ export const SearchProvider: React.FC<Props> = ({ children }) => {
     );
 };
 
-// Custom hook to use the data context
 export const useData = (): SearchContexType => {
     const context = useContext(SearchContex);
     if (context === undefined) {

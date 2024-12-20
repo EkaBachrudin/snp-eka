@@ -57,6 +57,10 @@ const Post = () => {
   }, [id]);
 
   const getError = (field: string): string | undefined => {
+    if (!Array.isArray(errors)) {
+      console.error('Expected errors to be an array but received:', errors);
+      return undefined;
+    }
     const error = errors?.find(e => e.field === field);
     return error ? error.message : undefined;
   };

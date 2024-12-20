@@ -1,0 +1,33 @@
+name: Next.js CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Lint with ESLint
+      run: npx eslint .
+
+    - name: Run Cypress tests
+      uses: cypress-io/github-action@v2
+      with:
+        start: npm run dev
+        wait-on: 'http://localhost:3000'
+        wait-on-timeout: 60 # seconds
+        command: npm run cypress:run

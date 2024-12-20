@@ -48,6 +48,7 @@ const FormComponent: React.FC<FormProps> = ({
                     onChange={handleTitleInput}
                     placeholder="Title..."
                     className={styles.custom_input}
+                    name='title'
                 />
                 {getError('title') && <p className={styles.error_text} style={{ color: 'red' }}>{getError('title')}</p>}
                 <TextArea
@@ -57,6 +58,7 @@ const FormComponent: React.FC<FormProps> = ({
                     rows={6}
                     placeholder="Body..."
                     className={styles.custom_input}
+                    name='body'
                 />
                 {getError('body') && <p className={styles.error_text} style={{ color: 'red' }}>{getError('body')}</p>}
 
