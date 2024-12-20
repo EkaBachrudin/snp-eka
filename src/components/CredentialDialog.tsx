@@ -51,7 +51,8 @@ const CredentialDialog: React.FC = () => {
           localStorage.setItem('userId', response.data.id);
           setConfirmLoading(false);
           setOpen(false);
-        } catch (error) {
+        } catch (error: any) {
+          setIsCredential(error.response?.data.message);
           setConfirmLoading(false);
           localStorage.removeItem('token'); 
         }

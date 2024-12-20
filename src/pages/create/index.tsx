@@ -1,4 +1,4 @@
-import { Button, notification } from "antd";
+import { notification } from "antd";
 import { useState } from "react";
 import { createPost } from "@/lib/api/gorest";
 import type { FormError } from "@/types/post";
@@ -18,20 +18,20 @@ const Create = () => {
     const openNotificationWithIcon = (type: NotificationType) => {
         console
         api[type]({
-          message: 'Success create post',
-          description:
-            'Go back to landing page to view your post',
+            message: 'Success create post',
+            description:
+                'Go back to landing page to view your post',
         });
     };
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-          const postData = { title, body };
-          await createPost(postData);
-          openNotificationWithIcon('success');
-          setTitle('');
-          setBody('');
+            const postData = { title, body };
+            await createPost(postData);
+            openNotificationWithIcon('success');
+            setTitle('');
+            setBody('');
         } catch (error: any) {
             setErrors(error.response?.data || []);
         }
@@ -44,21 +44,22 @@ const Create = () => {
 
     return (
         <>
-        <Link href={`/`}>
-          <button 
-            className='text-f-18 dark:text-white font-bold mt-10 mx-4'><LeftOutlined /> Back</button>
-        </Link> 
-        {contextHolder}
-        <FormComponent
-            mode="create"
-            title={title}
-            body={body}
-            setTitle={setTitle}
-            setBody={setBody}
-            getError={getError}
-            onSubmit={handleSubmit}
-        />
-            
+            <div className="max-w-[800px] mx-auto">
+                <Link href={`/`}>
+                    <button
+                        className='text-f-18 dark:text-white font-bold mt-10 mx-4'><LeftOutlined /> Back</button>
+                </Link>
+                {contextHolder}
+                <FormComponent
+                    mode="create"
+                    title={title}
+                    body={body}
+                    setTitle={setTitle}
+                    setBody={setBody}
+                    getError={getError}
+                    onSubmit={handleSubmit}
+                />
+            </div>
         </>
     )
 }

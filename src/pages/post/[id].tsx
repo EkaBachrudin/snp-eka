@@ -57,7 +57,7 @@ const Post = () => {
   }, [id]);
 
   const getError = (field: string): string | undefined => {
-    const error = errors.find(e => e.field === field);
+    const error = errors?.find(e => e.field === field);
     return error ? error.message : undefined;
   };
 
@@ -92,7 +92,7 @@ const Post = () => {
   };
 
   if (editMode) return (
-    <div className='px-6'>
+    <div className='px-6 max-w-[800px] mx-auto'>
       <button
         onClick={() => SetEditMode(false)}
         className='text-f-18 dark:text-white font-bold mt-10'><LeftOutlined /> Back</button>

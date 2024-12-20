@@ -1,20 +1,54 @@
-.title{
-    @apply font-worksans font-medium text-f-20 dark:text-white hover:underline;
-}
-
-.card_ex{
-    @apply border dark:border-[#2b2c37] dark:bg-[#181A2A] p-0 mb-5;
-   
-    img{
-        @apply object-cover rounded-md;
-        width: 100% !important;
-        height: 240px !important;
+.landing_container{
+    @apply p-7 max-w-[1218px] mx-auto;
+    .title{
+        @apply font-worksans font-medium text-f-20 dark:text-white hover:underline;
     }
 
-    .ant-card-body{
-        @apply p-0;
-        padding: 0 !important;
+    .single_post_image{
+        @apply mb-[80px] rounded-xl shadow;
+        height: 450px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover; 
     }
+
+    .single_post_content{
+        @apply bg-white dark:bg-[#181A2A] border dark:border-2 dark:border-[#242535] rounded-xl shadow-md w-[598px] left-[40px] p-10 absolute top-[300px];
+        .single_post_title{
+            @apply dark:text-white font-worksans font-bold;
+            font-size: 36px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            height: 3em;
+            line-height: 1.5em;
+        }
+    }
+
+    .card_items{
+        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5;
+
+        .card_ex{
+            @apply border dark:border-[#2b2c37] dark:bg-[#181A2A] p-0;
+           
+            img{
+                @apply object-cover rounded-md;
+                width: 100% !important;
+                height: 240px !important;
+            }
+        
+            .ant-card-body{
+                @apply p-0;
+                padding: 0 !important;
+            }
+        }
+    }
+
 }
+
+
 
   

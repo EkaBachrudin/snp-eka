@@ -1,6 +1,6 @@
 
 .post_wrapper{
-    @apply px-6 pb-28;
+    @apply px-6 pb-28 max-w-[800px] mx-auto;
 
     .title{
         @apply text-f-24 font-worksans font-bold dark:text-white mt-10;
