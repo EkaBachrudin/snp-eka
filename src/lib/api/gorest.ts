@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { QueryFunctionContext } from '@tanstack/react-query';
 import type { UserDto } from '@/types/user.interface';
+import { FetchAllPostsFunction, FetchAllPostsModel } from '@/types/post';
 
 const BASE_URL = 'https://gorest.co.in/public/v2';
 
@@ -13,13 +13,12 @@ export const setToken = (token: string) => {
   localStorage.setItem('token', token);
 };
 
-export const fetchPosts = async ({ pageParam = 1, queryKey }: QueryFunctionContext) => {
-  const [per_page, title] = queryKey;
+export const fetchAllPosts: FetchAllPostsFunction = async (currentPage: number, perPage: number, search: string) => {
   const response =  await apiClient.get(`/posts`, {
-    params: { page: pageParam, per_page, title },
+    params: { page: currentPage, per_page: perPage, title: search },
   });
 
-  return {
+  const data: FetchAllPostsModel = {
       data: response.data,
       pagination: {
           limit: response.headers['x-pagination-limit'],
@@ -28,7 +27,9 @@ export const fetchPosts = async ({ pageParam = 1, queryKey }: QueryFunctionConte
           totalItems: response.headers['x-pagination-total']
       }
   };
-};
+
+  return data;
+}
 
 export const fetchPost = (id: string) => {
   return apiClient.get(`/posts/${id}`);

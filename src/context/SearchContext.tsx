@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface SearchContexType {
-    data: string;
+    searchData: string;
     setData: (value: string) => void;
 }
 
@@ -13,10 +13,10 @@ interface Props {
 }
 
 export const SearchProvider: React.FC<Props> = ({ children }) => {
-    const [data, setData] = useState<string>("");
+    const [searchData, setData] = useState<string>("");
 
     return (
-        <SearchContex.Provider value={{ data, setData }}>
+        <SearchContex.Provider value={{ searchData, setData }}>
             {children}
         </SearchContex.Provider>
     );

@@ -2,49 +2,28 @@
 import Image from 'next/image';
 import { Card, Pagination, type PaginationProps } from 'antd';
 import styles from '../styles/pages/_index.module.scss';
-import { fetchPosts } from '@/lib/api/gorest';
+import { fetchAllPosts } from '@/lib/api/gorest';
 import { useEffect, useState } from 'react';
-import type { PaginationData, PostType } from '@/types';
 import { useData } from '@/context/SearchContext';
 import useDebounce from '@/hooks/useDebounce';
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Home() {
-
-  const [posts, setPosts] = useState<PostType[]>([]);
-  const [headPost, setHeadPost] = useState<PostType>();
-  const [pagination, setPagination] = useState<PaginationData>();
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  const { data } = useData();
-  const debouncedInput = useDebounce(data, 500);
+  const { searchData } = useData();
+  const debouncedInput = useDebounce(searchData, 500);
+
+  const {data, isLoading, refetch} = useQuery({
+    queryKey: ['getPosts', currentPage, pageSize, debouncedInput],
+    queryFn: () => fetchAllPosts(currentPage, pageSize, debouncedInput),
+    refetchOnWindowFocus: false
+  })
 
   useEffect(() => {
-    setLoading(true);
-    const abortController = new AbortController();
-
-    fetchPosts({
-      queryKey: [pageSize, debouncedInput],
-      pageParam: currentPage,
-      signal: abortController.signal,
-      meta: {}
-    })
-      .then(response => {
-        setHeadPost(response.data.slice(-1)[0]);
-        setPosts(response.data);
-        setPagination(response.pagination)
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to fetch posts:", err);
-        setLoading(false);
-      });
-
-    return () => {
-      abortController.abort();
-    };
+    refetch();
   }, [debouncedInput, currentPage, pageSize]);
 
   const onPageChange: PaginationProps['onChange'] = (currentPage) => {
@@ -55,7 +34,8 @@ export default function Home() {
     setPageSize(pageSize);
   };
 
-  if (loading) return (
+  if (isLoading) return (
+
     <div className={styles.landing_container}>
       <div className={styles.card_items}>
         <Card className={styles.card_ex} hoverable loading={true}></Card>
@@ -83,16 +63,14 @@ export default function Home() {
        
          <div className={styles.single_post_content}>
            <div  className={styles.single_post_title}>
-               {headPost?.title} 
+               {data?.data.slice(-1)[0].title} 
            </div>
          </div>
        </div>
       )}
 
-     
-
       <div className={styles.card_items}>
-        {posts.map((post, index) => (
+        {data?.data?.map((post, index) => (
           <Card key={index} className={styles.card_ex} hoverable loading={false} cover={
             <Image
               src={`https://picsum.photos/360/24${index}?random=1`}
@@ -112,16 +90,13 @@ export default function Home() {
         ))}
       </div>
 
-
-
       <Pagination
         onChange={onPageChange}
         onShowSizeChange={onShowSizeChange}
         defaultPageSize={pageSize}
         defaultCurrent={currentPage}
-        total={Number(pagination?.totalItems)}
+        total={Number(data?.pagination?.totalItems)}
       />
-
 
     </main>
   )
