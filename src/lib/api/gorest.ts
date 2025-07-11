@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { UserDto } from '@/types/user.interface';
-import { FetchAllPostsFunction, FetchAllPostsModel } from '@/types/post';
+import { FetchAllPostsModel } from '@/types/post';
 
 const BASE_URL = 'https://gorest.co.in/public/v2';
 
@@ -13,7 +13,7 @@ export const setToken = (token: string) => {
   localStorage.setItem('token', token);
 };
 
-export const fetchAllPosts: FetchAllPostsFunction = async (currentPage: number, perPage: number, search: string) => {
+export const fetchAllPosts = async (currentPage: number, perPage: number, search: string): Promise<FetchAllPostsModel> => {
   const response =  await apiClient.get(`/posts`, {
     params: { page: currentPage, per_page: perPage, title: search },
   });

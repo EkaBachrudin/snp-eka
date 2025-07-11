@@ -20,7 +20,7 @@ export default function Home() {
     queryKey: ['getPosts', currentPage, pageSize, debouncedInput],
     queryFn: () => fetchAllPosts(currentPage, pageSize, debouncedInput),
     refetchOnWindowFocus: false
-  })
+  });
 
   useEffect(() => {
     refetch();
@@ -70,7 +70,7 @@ export default function Home() {
       )}
 
       <div className={styles.card_items}>
-        {data?.data?.map((post, index) => (
+        {data?.data.map((post, index) => (
           <Card key={index} className={styles.card_ex} hoverable loading={false} cover={
             <Image
               src={`https://picsum.photos/360/24${index}?random=1`}

@@ -16,5 +16,3 @@ export type FetchAllPostsModel = {
   data: SinglePost[],
   pagination: PaginationData
 }
-
-export type FetchAllPostsFunction = (currentPage: number, perPage: number, search: string) => Promise<FetchAllPostsModel>;

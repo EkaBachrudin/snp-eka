@@ -38,6 +38,7 @@ const Create = () => {
     };
 
     const getError = (field: string): string | undefined => {
+        console.log(field)
         const error = errors?.find(e => e.field === field);
         return error ? error.message : undefined;
     };
